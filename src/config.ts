@@ -16,4 +16,5 @@ export const config= {
     discordToken: DISCORD_TOKEN,
     discordClientId: DISCORD_CLIENT_ID,
     mongoUri: MONGO_URI,
+    testGuildId: '831960677949505556',
 };
