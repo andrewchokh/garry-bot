@@ -5,6 +5,7 @@ import {ClientOptions} from "discord.js";
 const client = new Bot(botOptions as ClientOptions);
 
 client.loadEvents();
+client.loadCommands();
 client.build();
 
 
