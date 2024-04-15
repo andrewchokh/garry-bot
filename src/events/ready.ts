@@ -3,11 +3,12 @@ import {Bot} from "../bot";
 import mongoose from "mongoose";
 import logger from "../logger";
 import {config} from "../config";
+import mongoDBConfig from "../config/mongodb.json";
 import {deployCommands} from "../utils/deployCommands";
 
-async function connectToMongoDB(uri: string) {
+async function connectToMongoDB(uri: string, options: any) {
     try {
-        await mongoose.connect(uri);
+        await mongoose.connect(uri, options);
 
         logger.info('Successfully connected to MongoDB.')
     }
@@ -22,7 +23,7 @@ export const data: EventData = {
     callback: async (client: Bot) => {
         logger.info(`Logged in as ${client.user?.tag}`);
 
-        await connectToMongoDB(config.mongoUri);
+        await connectToMongoDB(config.mongoUri, mongoDBConfig);
 
         await deployCommands(client, config.testGuildId)
     }
