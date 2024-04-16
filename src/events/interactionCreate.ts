@@ -3,7 +3,7 @@ import logger from "../logger";
 
 export const data: EventData = {
     name: Events.InteractionCreate,
-    isOnce: true,
+    isOnce: false,
     callback: async (interaction: CommandInteraction) => {
         if (!interaction.isCommand()) return;
 
