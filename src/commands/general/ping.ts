@@ -8,6 +8,13 @@ export const data: CommandData = {
     slashCommand: slashCommand,
 
     callback: async (interaction: CommandInteraction) => {
-        await interaction.reply('Pong!')
+        await interaction.deferReply();
+
+        const reply = await interaction.fetchReply();
+
+        const clientPing = reply.createdTimestamp - interaction.createdTimestamp;
+        const websocketPing = interaction.client.ws.ping;
+
+        await interaction.editReply(`Pong! — **Client:** ${clientPing}ms | **Websocket:** ${websocketPing}ms`);
     }
 };
