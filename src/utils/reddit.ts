@@ -18,8 +18,6 @@ export class Reddit {
     async fetch(postHint: string) {
         const query = await axios.get(this.url);
 
-        console.log(query.data.data.children[0])
-
         this.posts = query.data.data.children
         .filter((post: any) => post.data.post_hint === postHint)
         .map((post: any) => {
