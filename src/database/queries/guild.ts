@@ -11,8 +11,8 @@ export async function fetchOrCreateGuild(guildId: string) {
     return query;
 }
 
-export const updateGuild = async (guildId: string, data: any) => {
+export async function updateGuild(guildId: string, data: any) {
     await guildModel.findOneAndUpdate({id: guildId}, data, {
         upsert: true,
     });
-};
+}
