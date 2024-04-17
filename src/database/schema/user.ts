@@ -3,26 +3,20 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
     id: {
         type: String,
-        required: true
+        required: true,
     },
     guildId: {
         type: String,
-        required: true
+        required: true,
     },
 
-    levelling: {
+    leveling: {
         type: Object,
         default: {
-            xp: {
-                type: Number,
-                default: 0
-            },
-            level: {
-                type: Number,
-                default: 1
-            }
+            xp: 0,
+            level: 1,
         }
     }
-})
+});
 
 export const userModel = mongoose.model('user', schema, 'users')
