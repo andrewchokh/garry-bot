@@ -25,6 +25,6 @@ export const data: EventData = {
 
         await connectToMongoDB(config.mongoUri, mongoDBConfig);
 
-        await deployCommands(client, config.testGuildId)
+        await deployCommands(client, config.testGuildId);
     }
 }
