@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         required: true,
     },
 
-    levelling: {
+    leveling: {
         type: Object,
         default: {
             xp: 0,
