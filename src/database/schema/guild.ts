@@ -3,47 +3,30 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
     id: {
         type: String,
-        required: true
+        required: true,
     },
     registeredAt: {
         type: Number,
-        default: Date.now()
+        default: Date.now(),
     },
 
     setting: {
         type: Object,
         default: {
-            language: {
-                type: String,
-                default: 'english'
-            },
-            botChannelIds: {
-                type: Array,
-                default: [],
-            },
-            blacklistedChannelIds: {
-                type: Array,
-                default: [],
-            },
-            blacklistedRolesIds: {
-                type: Array,
-                default: [],
-            },
+            language: 'english',
+            botChannelIds: [],
+            blacklistedChannelIds: [],
+            blacklistedRolesIds: [],
         }
     },
     moderation: {
         type: Object,
         default: {
-            muteRoleId: {
-                type: String,
-                default: null
-            },
-            logChannelId: {
-                type: String,
-                default: null
-            },
-        }
+            muteRoleId: null,
+            logChannelId: null,
+            levelChannelId: null,
+        },
     },
-})
+});
 
 export const guildModel = mongoose.model('guild', schema, 'guilds')
