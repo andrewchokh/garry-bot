@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         default: Date.now(),
     },
 
-    setting: {
+    preferences: {
         type: Object,
         default: {
             language: 'english',
@@ -27,6 +27,12 @@ const schema = new mongoose.Schema({
             levelChannelId: null,
         },
     },
+    leveling: {
+        type: Object,
+        default: {
+            levelRoleIds: [],
+        },
+    }
 });
 
 export const guildModel = mongoose.model('guild', schema, 'guilds')
