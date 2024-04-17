@@ -1,9 +1,9 @@
 import {userModel} from "../schema/user";
 
 export async function fetchOrCreateUser(id: string, guildId: string) {
-    const guild = await userModel.findOne({id: id, guildId: guildId}).lean();
+    const user = await userModel.findOne({id: id, guildId: guildId}).lean();
 
-    if (guild) return guild;
+    if (user) return user;
 
     const query = new userModel({id: id, guildId: guildId});
     await query.save();
