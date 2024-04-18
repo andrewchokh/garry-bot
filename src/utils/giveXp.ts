@@ -7,7 +7,7 @@ async function sendMessage(member: GuildMember, message: string) {
     const guildRecord = await fetchOrCreateGuild(member.guild.id);
 
     const levelUpChannel = member.guild.channels.cache.find(
-        channel => channel.id === guildRecord.moderation.levelChannelId
+        channel => channel.id === guildRecord.leveling.levelChannelId
     ) as TextChannel ?? member.dmChannel ?? await member.createDM();
 
     await levelUpChannel.send({content: message});

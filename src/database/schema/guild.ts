@@ -24,12 +24,12 @@ const schema = new mongoose.Schema({
         default: {
             muteRoleId: null,
             logChannelId: null,
-            levelChannelId: null,
         },
     },
     leveling: {
         type: Object,
         default: {
+            levelChannelId: null,
             levelRoleIds: [],
         },
     }
