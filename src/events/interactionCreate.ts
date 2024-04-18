@@ -10,8 +10,12 @@ export const data: EventData = {
 
         const guildRecord = await fetchOrCreateGuild(interaction.guildId as string);
         const botChannelIds = guildRecord.preferences.botChannelIds;
+        const blacklistedChannelIds = guildRecord.preferences.blacklistedChannelIds;
 
-        if (botChannelIds.length && !botChannelIds.includes(interaction.guildId)) return;
+        if ((botChannelIds.length &&
+            !botChannelIds.includes(interaction.guildId)) ||
+            blacklistedChannelIds.includes(interaction.guildId))
+            return;
 
         const { commandName } = interaction;
 
@@ -25,6 +29,10 @@ export const data: EventData = {
             if (command) command.get('data').callback(interaction);
         }
         catch (error) {
+            await interaction.reply({
+                content: 'An unexpected error has occurred!', ephemeral: true
+            });
+
             logger.error(error);
         }
     }
