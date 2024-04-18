@@ -18,12 +18,14 @@ const slashCommand = new SlashCommandBuilder()
         option
         .setName('role')
         .setDescription('The role for rank.')
-        .setRequired(true))
+        .setRequired(true)
+    )
     .addIntegerOption(option =>
         option
         .setName('level')
         .setDescription('Level to earn the rank.')
-        .setRequired(true))
+        .setRequired(true)
+    )
 )
 .addSubcommand(subcommand =>
     subcommand
@@ -38,7 +40,8 @@ const slashCommand = new SlashCommandBuilder()
         option
         .setName('level')
         .setDescription('Level to earn the role.')
-        .setRequired(true))
+        .setRequired(true)
+    )
 )
 .addSubcommand(subcommand =>
     subcommand
