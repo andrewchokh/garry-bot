@@ -5,10 +5,16 @@ export class Reddit {
     timestamp: number;
     posts: Array<any>;
 
-    constructor(subreddit: string) {
+    constructor(subreddit: string, postHint: string) {
         this.url = `https://www.reddit.com/r/${subreddit}/hot/.json?count=100`;
         this.timestamp = Date.now();
         this.posts = [];
+
+        this.fetch(postHint);
+
+        setInterval(() => {
+            this.fetch(postHint);
+        }, 60000 * 5);
     }
 
     random() {
@@ -27,5 +33,6 @@ export class Reddit {
                 url: post.data.url,
             };
         });
+
     }
 }
