@@ -9,6 +9,8 @@ export class Bot extends Client {
         super(options);
 
         this.commands = [];
+
+        global.voiceMembers = [];
     }
 
     loadEvents() {
