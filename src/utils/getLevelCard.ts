@@ -6,7 +6,7 @@ export async function getLevelCard(member: GuildMember, xp: number, level: numbe
         member.user.displayName.substring(0, 24) + '...' : member.user.displayName;
 
     const canvas = createCanvas(855, 225);
-    const canvasContext = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
 
     const barWidth = 540;
 
@@ -15,56 +15,56 @@ export async function getLevelCard(member: GuildMember, xp: number, level: numbe
         extension: 'png', forceStatic: true
     }));
 
-    canvasContext.drawImage(background, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-    canvasContext.stroke()
-    canvasContext.closePath();
+    ctx.stroke()
+    ctx.closePath();
 
     // XP Bar
-    canvasContext.lineJoin = 'round';
-    canvasContext.lineWidth = 35;
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
 
     // Empty XP Bar
-    canvasContext.strokeStyle = '#292C32';
-    canvasContext.strokeRect(255, 170, barWidth, 1);
+    ctx.strokeStyle = '#292C32';
+    ctx.strokeRect(255, 170, barWidth, 1);
 
     // Filled XP bar
-    canvasContext.strokeStyle = '#FFFFFF';
-    canvasContext.strokeRect(255, 170, barWidth * xp / levelUpMilestone, 1);
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeRect(255, 170, barWidth * xp / levelUpMilestone, 1);
 
     // Titles
-    canvasContext.fillStyle = 'white';
-    canvasContext.font = 'bold 25px Sans';
-    canvasContext.textAlign = 'right';
-    canvasContext.fillText(`LEVEL   ${level}`, 655, 70, 200);
-    canvasContext.fillText(`RANK   ${rankIndex}`, 805, 70, 200);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 25px Sans';
+    ctx.textAlign = 'right';
+    ctx.fillText(`LEVEL   ${level}`, 655, 70, 200);
+    ctx.fillText(`RANK   ${rankIndex}`, 805, 70, 200);
 
     // Progress bar titles
-    canvasContext.fillStyle = 'white';
-    canvasContext.font = 'bold 22px Sans';
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 22px Sans';
 
-    canvasContext.textAlign = 'left'
-    canvasContext.fillText(username, 245, 140);
+    ctx.textAlign = 'left'
+    ctx.fillText(username, 245, 140);
 
-    canvasContext.textAlign = 'right'
-    canvasContext.fillText(`${xp} / ${levelUpMilestone}`, 800, 140);
+    ctx.textAlign = 'right'
+    ctx.fillText(`${xp} / ${levelUpMilestone}`, 800, 140);
+
+    // Make avatar border
+    ctx.beginPath();
+    ctx.arc(125, 115, 80.5, 0, 2 * Math.PI);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#292C32';
+    ctx.stroke();
+    ctx.closePath();
 
     // Remove the avatar corners
-    canvasContext.beginPath();
-    canvasContext.arc(125, 115, 80.5, 0, 2 * Math.PI);
-    canvasContext.lineWidth = 10;
-    canvasContext.strokeStyle = '#292C32';
-    canvasContext.stroke();
-    canvasContext.closePath();
-
-    // Remove the avatar corners
-    canvasContext.beginPath();
-    canvasContext.arc(125, 115, 80, 0, 2 * Math.PI);
-    canvasContext.closePath();
-    canvasContext.clip();
+    ctx.beginPath();
+    ctx.arc(125, 115, 80, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.clip();
 
     // Add the avatar
-    canvasContext.drawImage(avatar, 45, 35, 160, 160);
+    ctx.drawImage(avatar, 45, 35, 160, 160);
 
     return canvas;
 }
