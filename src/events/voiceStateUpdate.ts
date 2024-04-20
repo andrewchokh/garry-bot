@@ -1,16 +1,32 @@
 import {Events, VoiceState} from "discord.js";
-import {delay} from "../utils/delay";
-import {giveXp} from "../utils/giveXp";
 
 export const data: EventData = {
     name: Events.VoiceStateUpdate,
     isOnce: false,
-    callback: async (_oldState: VoiceState, newState: VoiceState) => {
-        if (newState.member?.user.bot) return;
+    callback: async (oldState: VoiceState, newState: VoiceState) => {
+        if ((!newState.member || !newState.guild) || (!oldState.member || !oldState.guild)) return;
+        if (newState.member?.user.bot || oldState.channelId === newState.channelId) return;
 
-        while (newState.member?.voice.channelId) {
-            await delay(60000);
-            await giveXp(newState.member, 10);
+        voiceMembers = global.voiceMembers;
+
+        console.log(voiceMembers)
+
+        if (newState.channelId) {
+            const voiceMember: VoiceMember = {
+                member: newState.member,
+                guild: newState.guild
+            };
+
+            voiceMembers.push(voiceMember);
+        }
+        else if (oldState.channelId) {
+            const voiceMember: VoiceMember = {
+                member: oldState.member,
+                guild: oldState.guild
+            };
+
+            const index = voiceMembers.indexOf(voiceMember);
+            voiceMembers.splice(index, 1);
         }
     }
 }
