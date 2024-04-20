@@ -1,5 +1,5 @@
 import {Colors, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
-import {Reddit} from "../../utils/reddit";
+import {Reddit} from "../../utils/socials/reddit";
 
 const slashCommand = new SlashCommandBuilder()
 .setName('meme')
