@@ -1,6 +1,8 @@
 import {Colors, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import {Reddit} from "../../utils/socials/reddit";
 
+const redditClient = new Reddit('dankmemes', 'image');
+
 const slashCommand = new SlashCommandBuilder()
 .setName('meme')
 .setDescription('Sends funny meme.')
@@ -9,8 +11,6 @@ export const data: CommandData = {
     slashCommand: slashCommand,
 
     callback: async (interaction: CommandInteraction) => {
-        const redditClient = new Reddit("dankmemes");
-        await redditClient.fetch('image');
         const image = redditClient.random();
 
         const embed = new EmbedBuilder()
