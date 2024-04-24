@@ -10,6 +10,7 @@ export class Bot extends Client {
 
         this.commands = [];
 
+        global.messageSenders = [];
         global.voiceMembers = [];
     }
 

@@ -12,7 +12,7 @@ export const data: EventData = {
         console.log(voiceMembers)
 
         if (newState.channelId) {
-            const voiceMember: VoiceMember = {
+            const voiceMember: MetaMember = {
                 member: newState.member,
                 guild: newState.guild
             };
@@ -20,7 +20,7 @@ export const data: EventData = {
             voiceMembers.push(voiceMember);
         }
         else if (oldState.channelId) {
-            const voiceMember: VoiceMember = {
+            const voiceMember: MetaMember = {
                 member: oldState.member,
                 guild: oldState.guild
             };

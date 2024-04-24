@@ -1,7 +1,13 @@
 import {giveXp} from "../giveXp";
 
 export function rewardMessageSender() {
-    // Not Implemented
+    setInterval(async () => {
+        for (const messageSender of global.messageSenders) {
+            await giveXp(messageSender.member, 15);
+        }
+
+        global.messageSenders = [];
+    }, 60000);
 }
 
 export function rewardVoiceMembers() {
