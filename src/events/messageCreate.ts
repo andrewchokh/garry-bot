@@ -1,12 +1,22 @@
-import {Events, GuildMember, Message} from "discord.js";
-import {giveXp} from "../utils/giveXp";
+import {Events, Message} from "discord.js";
 
 export const data: EventData = {
     name: Events.MessageCreate,
     isOnce: false,
     callback: async (message: Message) => {
-        if (message.member?.user.bot || !message.guild) return;
+        if (message.member?.user.bot || !message.member || !message.guild) return;
 
-        await giveXp(message.member as GuildMember, 5);
+        let messageSender: MetaMember = global.messageSenders.find(
+            messageSender => messageSender.member.id === message.member?.id
+        ) as MetaMember;
+
+        if (messageSender) return;
+
+        messageSender = {
+            member: message.member,
+            guild: message.guild
+        };
+
+        global.messageSenders.push(messageSender);
     }
 }

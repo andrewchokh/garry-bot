@@ -1,5 +1,8 @@
+
+
 declare global {
-    var voiceMembers: VoiceMember[];
+    var messageSenders: MetaMember[];
+    var voiceMembers: MetaMember[];
 }
 
 export {}

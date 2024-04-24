@@ -5,7 +5,7 @@ import logger from "../logger";
 import {config} from "../config";
 import mongoDBConfig from "../config/mongodb.json";
 import {deployCommands} from "../utils/deployCommands";
-import {rewardVoiceMembers} from "../utils/tasks/rewardWithXP";
+import {rewardMessageSender, rewardVoiceMembers} from "../utils/tasks/rewardWithXP";
 
 async function connectToMongoDB(uri: string, options: any) {
     try {
@@ -14,7 +14,7 @@ async function connectToMongoDB(uri: string, options: any) {
         logger.info('Successfully connected to MongoDB.')
     }
     catch (error) {
-        logger.error(error)
+        logger.error(error);
     }
 }
 
@@ -28,6 +28,7 @@ export const data: EventData = {
 
         await deployCommands(client, config.testGuildId);
 
+        rewardMessageSender();
         rewardVoiceMembers();
     }
 }
