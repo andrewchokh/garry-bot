@@ -5,7 +5,7 @@ const redditClient = new Reddit('dankmemes', 'image');
 
 const slashCommand = new SlashCommandBuilder()
 .setName('meme')
-.setDescription('Sends funny meme.')
+.setDescription('Sends funny meme.');
 
 export const data: CommandData = {
     slashCommand: slashCommand,
