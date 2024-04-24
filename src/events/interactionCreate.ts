@@ -19,7 +19,7 @@ export const data: EventData = {
 
         const { commandName } = interaction;
 
-        const commands = interaction.client.commands
+        const commands = interaction.client.commands;
 
         try {
             const command = commands.find(
