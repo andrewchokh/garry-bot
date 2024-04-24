@@ -17,7 +17,7 @@ export async function getLevelCard(member: GuildMember, xp: number, level: numbe
 
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-    ctx.stroke()
+    ctx.stroke();
     ctx.closePath();
 
     // XP Bar
@@ -43,10 +43,10 @@ export async function getLevelCard(member: GuildMember, xp: number, level: numbe
     ctx.fillStyle = 'white';
     ctx.font = 'bold 22px Sans';
 
-    ctx.textAlign = 'left'
+    ctx.textAlign = 'left';
     ctx.fillText(username, 245, 140);
 
-    ctx.textAlign = 'right'
+    ctx.textAlign = 'right';
     ctx.fillText(`${xp} / ${levelUpMilestone}`, 800, 140);
 
     // Make avatar border
