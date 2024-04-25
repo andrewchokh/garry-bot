@@ -1,42 +1,20 @@
 import {
     ActionRowBuilder,
     ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    Colors,
     CommandInteraction,
     CommandInteractionOptionResolver,
-    PermissionFlagsBits,
-    SlashCommandBuilder, User,
     ComponentType,
-    ButtonStyle, ButtonInteraction, EmbedBuilder, Colors
+    EmbedBuilder,
+    PermissionFlagsBits,
+    SlashCommandBuilder,
+    User
 } from "discord.js";
 import {updateUser} from "../../database/queries/user";
-import {ButtonName} from "../../enums/buttonName";
-
-const slashCommand = new SlashCommandBuilder()
-.setName('level')
-.setDescription('Manages level system.')
-.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('set')
-    .setDescription('Sets level for the user.')
-    .addUserOption(option =>
-        option
-        .setName('user')
-        .setDescription('User to apply the level.')
-        .setRequired(true)
-    )
-    .addIntegerOption(option =>
-        option
-        .setName('level')
-        .setDescription('Level to assign.')
-        .setRequired(true)
-    )
-)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('reset')
-    .setDescription('Resets levels for all users.')
-)
+import {ButtonName} from "../../enums/button-name";
+import {CommandCategory} from "../../enums/command-category";
 
 async function set(interaction: CommandInteraction) {
     const options = interaction.options as CommandInteractionOptionResolver;
@@ -101,10 +79,38 @@ async function reset(interaction: CommandInteraction) {
     });
 }
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('level')
+    .setDescription('Manages level system.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('set')
+        .setDescription('Sets level for the user.')
+        .addUserOption(option =>
+            option
+            .setName('user')
+            .setDescription('User to apply the level.')
+            .setRequired(true)
+        )
+        .addIntegerOption(option =>
+            option
+            .setName('level')
+            .setDescription('Level to assign.')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('reset')
+        .setDescription('Resets levels for all users.')
+    )
+    .toJSON(),
 
-    callback: async (interaction: CommandInteraction) => {
+    category: CommandCategory.Leveling,
+
+    async execute(interaction: CommandInteraction) {
         if (!interaction.guild) return;
 
         const options = interaction.options as CommandInteractionOptionResolver;

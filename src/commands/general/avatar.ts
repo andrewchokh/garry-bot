@@ -5,20 +5,22 @@ import {
     SlashCommandUserOption,
     User
 } from "discord.js";
+import {CommandCategory} from "../../enums/command-category";
 
-const slashCommand = new SlashCommandBuilder()
-.setName('avatar')
-.setDescription('Sends user avatar.')
-.addUserOption(new SlashCommandUserOption()
-    .setName("user")
-    .setRequired(false)
-    .setDescription("User of the server.")
-);
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('avatar')
+    .setDescription('Sends user avatar.')
+    .addUserOption(new SlashCommandUserOption()
+        .setName('user')
+        .setRequired(false)
+        .setDescription('User of the server.')
+    )
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.General,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction) {
         const user = interaction.options.getUser('user') as User || interaction.user;
 
         if (!user?.avatarURL()) return await interaction.reply({
