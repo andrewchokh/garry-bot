@@ -21,8 +21,6 @@ async function set(interaction: CommandInteraction) {
     const user = options.getUser('user') as User;
     const level = options.getInteger('level') as number;
 
-    if (level < 1 || level > 100) return await interaction.reply({content: 'The level should be in the range from 1 to one 100.'});
-
     await updateUser(user.id, interaction.guild?.id as string, {$set: {'leveling.xp': 0, 'leveling.level': level}});
 
     await interaction.reply(`Done! Now <@${user.id}> is level ${level}.`);
