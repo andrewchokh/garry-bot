@@ -1,9 +1,10 @@
 import {Events, Message} from "discord.js";
 
-export const data: EventData = {
+export const event: EventData = {
     name: Events.MessageCreate,
     isOnce: false,
-    callback: async (message: Message) => {
+
+    async execute(message: Message) {
         if (message.member?.user.bot || !message.member || !message.guild) return;
 
         let messageSender: MetaMember = global.messageSenders.find(

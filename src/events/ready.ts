@@ -18,10 +18,11 @@ async function connectToMongoDB(uri: string, options: any) {
     }
 }
 
-export const data: EventData = {
+export const event: EventData = {
     name: Events.ClientReady,
     isOnce: true,
-    callback: async (client: Bot) => {
+
+    async execute(client: Bot)  {
         logger.info(`Logged in as ${client.user?.tag}`);
 
         await connectToMongoDB(config.mongoUri, mongoDBConfig);

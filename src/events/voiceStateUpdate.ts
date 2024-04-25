@@ -1,9 +1,10 @@
 import {Events, VoiceState} from "discord.js";
 
-export const data: EventData = {
+export const event: EventData = {
     name: Events.VoiceStateUpdate,
     isOnce: false,
-    callback: async (oldState: VoiceState, newState: VoiceState) => {
+
+    async execute(oldState: VoiceState, newState: VoiceState) {
         if ((!newState.member || !newState.guild) || (!oldState.member || !oldState.guild)) return;
         if (newState.member?.user.bot || oldState.channelId === newState.channelId) return;
 
