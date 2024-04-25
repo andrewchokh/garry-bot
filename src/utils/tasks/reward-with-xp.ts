@@ -1,4 +1,4 @@
-import {giveXp} from "../giveXp";
+import {giveXp} from "../give-xp";
 
 export function rewardMessageSender() {
     setInterval(async () => {

@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import logger from "../logger";
 import {config} from "../config";
 import mongoDBConfig from "../config/mongodb.json";
-import {deployCommands} from "../utils/deployCommands";
-import {rewardMessageSender, rewardVoiceMembers} from "../utils/tasks/rewardWithXP";
+import {deployCommands} from "../utils/deploy-commands";
+import {rewardMessageSender, rewardVoiceMembers} from "../utils/tasks/reward-with-xp";
 
 async function connectToMongoDB(uri: string, options: any) {
     try {

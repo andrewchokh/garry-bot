@@ -1,7 +1,7 @@
 import {GuildMember, Role, TextChannel} from "discord.js";
 import {fetchOrCreateUser, updateUser} from "../database/queries/user";
 import {fetchOrCreateGuild} from "../database/queries/guild";
-import {calculateLevelXp} from "./calculateLevelXp";
+import {calculateLevelXp} from "./calculate-level-xp";
 
 async function sendMessage(member: GuildMember, message: string) {
     const guildRecord = await fetchOrCreateGuild(member.guild.id);

@@ -5,8 +5,8 @@ import {
     SlashCommandBuilder
 } from "discord.js";
 import {fetchOrCreateUser} from "../../database/queries/user";
-import {calculateLevelXp} from "../../utils/calculateLevelXp";
-import {getLevelCard} from "../../utils/getLevelCard";
+import {calculateLevelXp} from "../../utils/calculate-level-xp";
+import {getLevelCard} from "../../utils/get-level-card";
 import {fetchOrCreateGuild} from "../../database/queries/guild";
 import {CommandCategory} from "../../enums/command-category";
 

@@ -1,4 +1,4 @@
-import {getAllFiles} from "../utils/getAllFiles";
+import {getAllFiles} from "../utils/get-all-files";
 
 let commandList = [];
 const commandCategories = getAllFiles(__dirname, true);
