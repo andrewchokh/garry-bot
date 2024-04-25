@@ -1,18 +1,11 @@
 import {
+    AttachmentBuilder,
     CommandInteraction,
-    EmbedBuilder,
-    EmbedField,
-    GuildMember,
     SlashCommandBuilder
 } from "discord.js";
 import {CommandCategory} from "../../enums/command-category";
 import {fetchOrCreateUser} from "../../database/queries/user";
-
-type LeaderboardUserData = {
-    member: GuildMember,
-    xp: number,
-    level: number,
-}
+import {drawLevelLeaderboard} from "../../utils/draw-level-leaderboard";
 
 export const command: SlashCommandData = {
     data: new SlashCommandBuilder()
@@ -25,50 +18,26 @@ export const command: SlashCommandData = {
     async execute(interaction: CommandInteraction) {
         if (!interaction.guild) return;
 
-        const members = interaction.guild.members.cache;
-        const membersLevelingData: LeaderboardUserData[] = [];
+        const members = interaction.guild.members.cache
+        //.filter(member => !member.user.bot);
 
-        for (const member of members) {
-            const userRecord = await fetchOrCreateUser(member[1].id, interaction.guild.id);
-
-            membersLevelingData.push({
-                member: member[1],
+        let leaderboardUsersData: LeaderboardUserData[] = [];
+        for (const [_index, member] of members) {
+            const userRecord = await fetchOrCreateUser(member.id, member.guild.id);
+            leaderboardUsersData.push({
+                member: member,
                 xp: userRecord.leveling.xp,
                 level: userRecord.leveling.level,
             });
         }
 
-        membersLevelingData.sort(
-            (a, b) => b.level - a.level && b.xp - a.xp
-        );
+        leaderboardUsersData.sort((a, b) => b.level - a.level || b.xp - a.xp);
+        leaderboardUsersData.slice(0, 10);
 
-        const fields: EmbedField[] = [];
-        for (const memberLevelData of membersLevelingData) {
-            const index = membersLevelingData.indexOf(memberLevelData);
+        const image = await drawLevelLeaderboard(leaderboardUsersData);
 
-            fields.push({
-                name: `Member #${index + 1}`,
-                value:  `${memberLevelData.member.displayName ?? memberLevelData.member.user.globalName}`,
-                inline: true,
-            })
+        const attachment = new AttachmentBuilder(image.toBuffer(), {name: 'leaderboard.png'})
 
-            fields.push({
-                name: 'Level',
-                value: `\`${memberLevelData.level}\``,
-                inline: true,
-            })
-
-            fields.push({
-                name: 'Experience',
-                value: `\`${memberLevelData.xp} points\`\n`,
-                inline: true,
-            })
-        }
-
-        const embed = new EmbedBuilder()
-        .setTitle('Leaderboard')
-        .addFields(fields);
-
-        await interaction.reply({embeds: [embed]});
+        await interaction.reply({files: [attachment]});
     }
 }
