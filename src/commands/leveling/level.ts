@@ -99,6 +99,8 @@ export const command: SlashCommandData = {
             .setName('level')
             .setDescription('Level to assign.')
             .setRequired(true)
+            .setMinValue(1)
+            .setMaxValue(100)
         )
     )
     .addSubcommand(subcommand =>
