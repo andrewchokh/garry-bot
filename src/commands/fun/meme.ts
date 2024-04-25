@@ -1,16 +1,18 @@
 import {Colors, CommandInteraction, EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import {Reddit} from "../../utils/socials/reddit";
+import {CommandCategory} from "../../enums/command-category";
 
 const redditClient = new Reddit('dankmemes', 'image');
 
-const slashCommand = new SlashCommandBuilder()
-.setName('meme')
-.setDescription('Sends funny meme.');
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('meme')
+    .setDescription('Sends funny meme.')
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.Fun,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction) {
         const image = redditClient.random();
 
         const embed = new EmbedBuilder()

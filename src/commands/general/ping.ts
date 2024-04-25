@@ -1,13 +1,15 @@
 import {CommandInteraction, SlashCommandBuilder} from "discord.js";
+import {CommandCategory} from "../../enums/command-category";
 
-const slashCommand = new SlashCommandBuilder()
-.setName('ping')
-.setDescription('Replies with pong.')
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Replies with pong!')
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.General,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction): Promise<void> {
         await interaction.deferReply();
 
         const reply = await interaction.fetchReply();
@@ -16,5 +18,5 @@ export const data: CommandData = {
         const websocketPing = interaction.client.ws.ping;
 
         await interaction.editReply(`Pong! — **Client:** ${clientPing}ms | **Websocket:** ${websocketPing}ms`);
-    }
-};
+    },
+}

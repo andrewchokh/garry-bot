@@ -1,53 +1,14 @@
 import {
+    Colors,
     CommandInteraction,
-    SlashCommandBuilder,
+    CommandInteractionOptionResolver,
+    EmbedBuilder,
     PermissionFlagsBits,
-    CommandInteractionOptionResolver, Role, EmbedBuilder, Colors
+    Role,
+    SlashCommandBuilder
 } from "discord.js";
 import {fetchOrCreateGuild, updateGuild} from "../../database/queries/guild";
-
-const slashCommand = new SlashCommandBuilder()
-.setName('level-role')
-.setDescription('Manages level roles.')
-.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('add')
-    .setDescription('Adds level role.')
-    .addRoleOption(option =>
-        option
-        .setName('role')
-        .setDescription('The role for rank.')
-        .setRequired(true)
-    )
-    .addIntegerOption(option =>
-        option
-        .setName('level')
-        .setDescription('Level to earn the rank.')
-        .setRequired(true)
-    )
-)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('show')
-    .setDescription('Shows level roles.')
-)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('remove')
-    .setDescription('Removes level role.')
-    .addIntegerOption(option =>
-        option
-        .setName('level')
-        .setDescription('Level to earn the role.')
-        .setRequired(true)
-    )
-)
-.addSubcommand(subcommand =>
-    subcommand
-    .setName('clear')
-    .setDescription('Clears all level roles.')
-);
+import {CommandCategory} from "../../enums/command-category";
 
 async function add(interaction: CommandInteraction) {
     const options = interaction.options as CommandInteractionOptionResolver;
@@ -113,10 +74,54 @@ async function clear(interaction: CommandInteraction) {
     await interaction.reply('All level roles cleared!');
 }
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('level-role')
+    .setDescription('Manages level roles.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('add')
+        .setDescription('Adds level role.')
+        .addRoleOption(option =>
+            option
+            .setName('role')
+            .setDescription('The role for rank.')
+            .setRequired(true)
+        )
+        .addIntegerOption(option =>
+            option
+            .setName('level')
+            .setDescription('Level to earn the rank.')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('show')
+        .setDescription('Shows level roles.')
+    )
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('remove')
+        .setDescription('Removes level role.')
+        .addIntegerOption(option =>
+            option
+            .setName('level')
+            .setDescription('Level to earn the role.')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand(subcommand =>
+        subcommand
+        .setName('clear')
+        .setDescription('Clears all level roles.')
+    )
+    .toJSON(),
 
-    callback: async (interaction: CommandInteraction) => {
+    category: CommandCategory.Config,
+
+    async execute(interaction: CommandInteraction) {
         const options = interaction.options as CommandInteractionOptionResolver;
         const subcommandName  = options.getSubcommand();
 

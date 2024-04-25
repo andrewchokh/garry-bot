@@ -1,30 +1,36 @@
 import {
     Colors,
-    CommandInteraction, EmbedBuilder, EmbedField, GuildMember,
+    CommandInteraction,
+    EmbedBuilder,
+    EmbedField,
+    GuildMember,
     PermissionsBitField,
-    SlashCommandBuilder, SlashCommandUserOption
+    SlashCommandBuilder,
+    SlashCommandUserOption
 } from "discord.js";
+import {CommandCategory} from "../../enums/command-category";
 
-const slashCommand = new SlashCommandBuilder()
-.setName('user-info')
-.setDescription('Displays general information about the user.')
-.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
-.addUserOption(new SlashCommandUserOption()
-    .setName("member")
-    .setRequired(true)
-    .setDescription("Member of the server.")
-);
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('user-info')
+    .setDescription('Displays general information about the user.')
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
+    .addUserOption(new SlashCommandUserOption()
+        .setName("member")
+        .setRequired(true)
+        .setDescription("Member of the server.")
+    )
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.General,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction) {
         const member = interaction.options.getMember('member') as GuildMember;
 
         const userRoles = member.roles.cache
-            .filter((role) => role.name !== "@everyone")
-            .sort((a, b) => b.position - a.position)
-            .map((role) => `${role}`);
+        .filter((role) => role.name !== "@everyone")
+        .sort((a, b) => b.position - a.position)
+        .map((role) => `${role}`);
 
         const fields: EmbedField[] = [
             {

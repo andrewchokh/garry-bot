@@ -8,15 +8,17 @@ import {fetchOrCreateUser} from "../../database/queries/user";
 import {calculateLevelXp} from "../../utils/calculateLevelXp";
 import {getLevelCard} from "../../utils/getLevelCard";
 import {fetchOrCreateGuild} from "../../database/queries/guild";
+import {CommandCategory} from "../../enums/command-category";
 
-const slashCommand = new SlashCommandBuilder()
-.setName('rank')
-.setDescription('Shows your level on the server')
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('rank')
+    .setDescription('Shows your level on the server')
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.Leveling,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction) {
         if (!interaction.guild) return;
 
         const userRecord = await fetchOrCreateUser(interaction.user.id, interaction.guild.id);

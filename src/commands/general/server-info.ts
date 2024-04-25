@@ -1,20 +1,26 @@
 import {
-    CategoryChannel, Colors,
-    CommandInteraction, EmbedBuilder, EmbedField,
+    CategoryChannel,
+    Colors,
+    CommandInteraction,
+    EmbedBuilder,
+    EmbedField,
     PermissionsBitField,
-    SlashCommandBuilder, TextChannel,
+    SlashCommandBuilder,
+    TextChannel,
     VoiceChannel
 } from "discord.js";
+import {CommandCategory} from "../../enums/command-category";
 
-const slashCommand = new SlashCommandBuilder()
-.setName('server-info')
-.setDescription('Displays general information about the server.')
-.setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator);
+export const command: SlashCommandData = {
+    data: new SlashCommandBuilder()
+    .setName('server-info')
+    .setDescription('Displays general information about the server.')
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
+    .toJSON(),
 
-export const data: CommandData = {
-    slashCommand: slashCommand,
+    category: CommandCategory.General,
 
-    callback: async (interaction: CommandInteraction) => {
+    async execute(interaction: CommandInteraction) {
         if (!interaction.guild) return;
 
         const textChannels = interaction.guild.channels.cache.filter(
