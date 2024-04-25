@@ -8,26 +8,12 @@ export const event: EventData = {
         if ((!newState.member || !newState.guild) || (!oldState.member || !oldState.guild)) return;
         if (newState.member?.user.bot || oldState.channelId === newState.channelId) return;
 
-        voiceMembers = global.voiceMembers;
-
-        console.log(voiceMembers)
-
         if (newState.channelId) {
-            const voiceMember: MetaMember = {
-                member: newState.member,
-                guild: newState.guild
-            };
-
-            voiceMembers.push(voiceMember);
+            global.voiceMembers.push(newState.member);
         }
         else if (oldState.channelId) {
-            const voiceMember: MetaMember = {
-                member: oldState.member,
-                guild: oldState.guild
-            };
-
-            const index = voiceMembers.indexOf(voiceMember);
-            voiceMembers.splice(index, 1);
+            const index = global.voiceMembers.indexOf(oldState.member);
+            global.voiceMembers.splice(index, 1);
         }
     }
 }

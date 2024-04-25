@@ -1,4 +1,4 @@
-import {Events, Message} from "discord.js";
+import {Events, GuildMember, Message} from "discord.js";
 
 export const event: EventData = {
     name: Events.MessageCreate,
@@ -7,16 +7,13 @@ export const event: EventData = {
     async execute(message: Message) {
         if (message.member?.user.bot || !message.member || !message.guild) return;
 
-        let messageSender: MetaMember = global.messageSenders.find(
-            messageSender => messageSender.member.id === message.member?.id
-        ) as MetaMember;
+        let messageSender: GuildMember = global.messageSenders.find(
+            messageSender => messageSender.id === message.member?.id
+        ) as GuildMember;
 
         if (messageSender) return;
 
-        messageSender = {
-            member: message.member,
-            guild: message.guild
-        };
+        messageSender = message.member;
 
         global.messageSenders.push(messageSender);
     }
