@@ -8,7 +8,7 @@ export class Bot extends Client {
     constructor(options: ClientOptions) {
         super(options);
 
-        this.commands = [];
+        this.commands = new Collection<string, SlashCommandData>();
 
         global.messageSenders = [];
         global.voiceMembers = [];
@@ -17,19 +17,19 @@ export class Bot extends Client {
     loadEvents() {
         for (const event of events) {
             if (event.isOnce)
-                this.once(event.name, (...args) => event.callback(...args));
+                this.once(event.name, (...args) => event.execute(...args));
             else
-                this.on(event.name, (...args) => event.callback(...args));
+                this.on(event.name, (...args) => event.execute(...args));
         }
     }
 
     loadCommands() {
         for (const command of commands) {
-            this.commands.push(new Collection([['name', command.slashCommand.name], ['data', command]]));
+            this.commands.set(command.data.name, command)
         }
     }
 
-    build(){
+    build() {
         this.login(config.discordToken)
         .catch(e => console.log(e));
     }
