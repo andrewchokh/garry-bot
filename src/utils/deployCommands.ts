@@ -1,27 +1,19 @@
-import {REST, Routes, SlashCommandBuilder} from "discord.js";
+import {REST, Routes} from "discord.js";
 import {Bot} from "../bot";
 import logger from "../logger";
 import {config} from "../config";
 
-const commands: Array<SlashCommandBuilder> = [];
-
 const rest = new REST({ version: "10" }).setToken(config.discordToken);
 
-function unpackCommands(client: Bot) {
-    for (const commandCol of client.commands) {
-        const commandData = commandCol.get('data');
-
-        commands.push(commandData.slashCommand);
-    }
-}
-
 export async function deployCommands(client: Bot, guildId?: string) {
-    if (!commands.length) unpackCommands(client);
+    const commands = [];
+    for (const command of client.commands) {
+        commands.push(command[1].data);
+    }
 
     logger.info("Started refreshing application (/) commands.");
 
-    // If guildId is not specified, applied application commands will be global
-    // Bot needs application.commands scope to use them
+    // If guildId is not specified, applied application commands will be global!
     try {
         if (guildId) {
             await rest.put(

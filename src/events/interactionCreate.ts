@@ -2,10 +2,11 @@ import {CommandInteraction, Events} from "discord.js";
 import logger from "../logger";
 import {fetchOrCreateGuild} from "../database/queries/guild";
 
-export const data: EventData = {
+export const event: EventData = {
     name: Events.InteractionCreate,
     isOnce: false,
-    callback: async (interaction: CommandInteraction) => {
+
+    async execute(interaction: CommandInteraction) {
         if (!interaction.isCommand()) return;
 
         const guildRecord = await fetchOrCreateGuild(interaction.guildId as string);
@@ -17,16 +18,14 @@ export const data: EventData = {
             blacklistedChannelIds.includes(interaction.guildId))
             return;
 
-        const { commandName } = interaction;
-
-        const commands = interaction.client.commands;
+        const command = interaction.client.commands.get(interaction.commandName);
 
         try {
-            const command = commands.find(
-                command => command.get('name') === commandName
-            );
+            if (command) return await command.execute(interaction);
 
-            if (command) command.get('data').callback(interaction);
+            await interaction.reply({
+                content: 'Command is bot found!', ephemeral: true
+            });
         }
         catch (error) {
             await interaction.reply({
