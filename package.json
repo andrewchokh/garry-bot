@@ -2,7 +2,7 @@
   "name": "garry-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "hello.js",
+  "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node out/index.js",
